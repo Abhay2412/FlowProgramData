@@ -1,7 +1,7 @@
 // list.cpp
 // ENSF 337 Fall 2020 Lab 8 Exercise B
 // Abhay Khosla Lab B02 
-// Submission Date November 20th , 2020
+// Submission Date November 23rd , 2020
 
 
 
@@ -39,7 +39,7 @@ void FlowList::insert(const ListItem& itemW)
     Node *new_node = new Node;
     new_node->item = itemW;
     
-    if (headM == 0 || itemW.year >= headM->item.year ) {
+    if (headM == 0 || itemW.year <= headM->item.year ) {
         new_node->next = headM;
         headM = new_node;
     }
@@ -47,7 +47,7 @@ void FlowList::insert(const ListItem& itemW)
     else {
         Node *before = headM;      
         Node *after = headM->next; 
-        while(after != 0 && itemW.year < after->item.year) {
+        while(after != 0 && itemW.year > after->item.year) {
             before = after;
             after = after->next;
         }
@@ -80,37 +80,41 @@ void FlowList::sethead(Node* set)
 	headM=set;
 }
 
-int FlowList::remove(const ListItem& itemW)
+int FlowList::remove(const ListItem& itemA, int numRecords)
 {
-	int val=0;
-    Node *doomed_node = nullptr;    
-   if (headM == 0 || itemW.year > headM->item.year) 
-	    doomed_node = 0;
-   val=0; //could not remove
-        
-    if (itemW.year == headM->item.year) {
-        doomed_node = headM;
-        headM = headM->next;
-		val=1; //succesful removal
-    }
-
-    else {
-        Node *before = headM;
-        Node *maybe = headM->next;
-        while(maybe != 0 && itemW.year < maybe->item.year) {
-            before = maybe;
-            maybe = maybe->next;
-        if (maybe->item.year==itemW.year){
-        Node *nextone=maybe->next;
-		before->next=nextone;
-		val=1;
-		}
-    }
+	if(headM == 0){
+		cout << "Error: No such a data";
+		return numRecords;
 	}
-	return val;
+	Node *doomed_node = 0;
+	if(itemA.year == headM->item.year){
+		doomed_node = headM;
+		headM = headM->next;
+		delete doomed_node;
+		cout<<"\nRecord was successfully removed.";
+		return(--numRecords);
+	}
+
+	Node *before = headM;
+	Node *maybe_doomed = headM -> next;
+	while(before->next != 0)
+	{
+		if(itemA.year == maybe_doomed -> item.year){
+		before -> next = maybe_doomed->next;
+		maybe_doomed ->next = 0;
+		delete maybe_doomed;
+		cout<<"\nRecord was successfully removed.";
+		return(--numRecords);
+	}
+		before = maybe_doomed;
+		maybe_doomed=maybe_doomed->next;
+	
 }
+cout << "Error: No such a data";
+return numRecords;
+    }
 
-
+	
 void FlowList::destroy()
 {
      Node *remove = headM;

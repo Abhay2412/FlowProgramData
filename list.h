@@ -1,11 +1,13 @@
 // list.h
 // ENSF 337 Fall 2020 Lab 8 Exercise B
 // Abhay Khosla Lab B02 
-// Submission Date November 20th , 2020
+// Submission Date November 23rd , 2020
 
 
 #ifndef LIST_H
 #define LIST_H
+
+
 
 struct ListItem {
 	int year;
@@ -27,8 +29,8 @@ public:
 	Node* gethead()const;
 	void sethead(Node* set);
 	int counter();
-	void insert(const ListItem& itemA);
-	int remove(const ListItem& itemW);
+	void insert(const ListItem& itemW);
+	int remove(const ListItem& itemA, int numRecords);
   
 private:
 	Node *headM;
